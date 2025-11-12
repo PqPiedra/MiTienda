@@ -95,7 +95,7 @@ async function mostrarProductosDeCategoria(categoriaKey, nombreDisplay) {
   productosGrid.innerHTML = '<p>Cargando productos...</p>'; 
 
   try {
-    const respuesta = await fetch(`http://localhost:3000/api/productos?categoria=${categoriaKey}`);
+    const respuesta = await fetch(`https://mi-tienda-final.onrender.com/api/productos?categoria=${categoriaKey}`);
     if (!respuesta.ok) { 
         throw new Error(`Error del servidor: ${respuesta.statusText}`);
     }
@@ -313,7 +313,7 @@ botonPagarFinal.addEventListener("click", async () => {
         cantidad: item.cantidad // ¡Enviamos la cantidad!
     }));
 
-    const respuesta = await fetch('http://localhost:3000/api/pedidos', {
+    const respuesta = await fetch('https://mi-tienda-final.onrender.com/api/pedidos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

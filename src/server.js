@@ -11,16 +11,12 @@ const PORT = 3000;
 const ADMIN_PASSWORD = "admin123"; // <-- ¡Cambia esto por tu contraseña secreta!
 // ---------------------------------------------
 
-// --- CONFIGURACIÓN DE MIDDLEWARE ---
-app.use(cors());
+// --- CONFIGURACIÓN DE MIDDLEWARE (CORREGIDO PARA PRODUCCIÓN) ---
+// Permitimos que CUALQUIER dominio (origin: '*') acceda a la API
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// --- 3. CONEXIÓN A MONGODB ---
-// Leer la URL secreta desde las Variables de Entorno
-const dbURL = process.env.DATABASE_URL;
 
-mongoose.connect(dbURL)
-// ... (el resto de tu código .then() .catch() sigue igual) ...
 
 mongoose.connect(dbURL)
   .then(() => {
