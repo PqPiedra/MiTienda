@@ -1,0 +1,517 @@
+/* --- Estilos Globales (la página entera) --- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  background-color: #f0f2f5;
+  display: grid;
+  place-items: center;
+  min-height: 90vh;
+  color: #333;
+  padding: 2rem 0;
+  margin: 0;
+}
+
+/* --- La Tarjeta Contenedora --- */
+.contenedor {
+  background-color: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 450px; /* Ancho máximo de la tarjeta */
+  margin-bottom: 2rem;
+  box-sizing: border-box;
+}
+
+/* --- Estilos de los Textos --- */
+h2 {
+  color: #1a2b4a;
+  margin-top: 0;
+}
+h3 {
+  color: #1a2b4a;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+p {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Botones Genéricos --- */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* --- ¡ESTA ES LA REGLA MÁS IMPORTANTE! --- */
+/* --- Clase para ocultar elementos --- */
+.oculto {
+  display: none !important;
+}
+
+/* --- GRID CONTAINER (para categorías y productos) --- */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+/* --- Estilo para cada Mosaico (Categoría/Producto) --- */
+.grid-item {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.grid-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #eef7ff;
+}
+.grid-item img {
+  max-width: 100%;
+  max-height: 100px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-bottom: 8px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.grid-item h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 1rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.grid-item p {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.3;
+}
+.grid-item .precio {
+  font-weight: bold;
+  color: #28a745;
+  margin-top: 8px;
+  font-size: 1.1rem;
+}
+
+/* Botón "Añadir" dentro del mosaico de producto */
+.add-to-cart-btn {
+  background-color: #007bff;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  width: auto;
+  margin-top: 10px;
+  margin-bottom: 0;
+  display: inline-block;
+}
+.add-to-cart-btn:hover {
+  background-color: #0056b3;
+}
+
+/* --- Botón Volver --- */
+.volver-btn {
+  background-color: #6c757d;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  width: auto;
+  padding: 8px 15px;
+  display: inline-block;
+}
+.volver-btn:hover {
+  background-color: #5a6268;
+}
+
+/* --- Carrito Inteligente --- */
+#carrito-resumen {
+  margin-top: 2rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  text-align: left;
+}
+#carrito-lista {
+  list-style-type: none;
+  padding-left: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+#carrito-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #ccc;
+}
+#carrito-lista .item-info {
+  flex-grow: 1;
+}
+#carrito-lista .item-info span {
+  display: block;
+  font-size: 0.9rem;
+}
+#carrito-lista .item-info strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+}
+.item-controles {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: 10px;
+}
+.item-controles .cantidad {
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+.control-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 0.2s;
+}
+.control-btn:hover {
+  background-color: #0056b3;
+}
+.control-btn.restar {
+  background-color: #6c757d;
+}
+.control-btn.restar:hover {
+  background-color: #5a6268;
+}
+#carrito-total {
+  text-align: right;
+  font-size: 1.3rem;
+  color: #333;
+  font-weight: bold;
+}
+#boton-ir-a-pagar {
+  background-color: #28a745;
+}
+#boton-ir-a-pagar:hover {
+  background-color: #218838;
+}
+
+/* --- Estilos Página de Pago --- */
+#pago-lista {
+  list-style-type: none;
+  padding-left: 0;
+  text-align: left;
+}
+#pago-lista li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.precio-final {
+  font-size: 1.8rem;
+  color: #28a745;
+  margin: 0.5rem 0 1.5rem 0;
+}
+#boton-pagar-final {
+  background-color: #007bff;
+}
+#boton-pagar-final:hover {
+  background-color: #0056b3;
+}
+
+/* --- Estilos Contenedor QR --- */
+#qrcode {
+  width: 150px;
+  height: 150px;
+  margin: 1.5rem auto;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#qr-order-id {
+  color: #007bff;
+  font-family: monospace;
+  font-size: 1.1rem;
+}
+#boton-nuevo-pedido {
+  background-color: #6c757d;
+}
+
+/* --- Estilos de Stock (Agotado / Bajo) --- */
+.grid-item.agotado {
+  opacity: 0.6;
+  filter: grayscale(80%);
+  cursor: not-allowed;
+}
+.grid-item.agotado:hover {
+  transform: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.add-to-cart-btn.agotado-btn {
+  background-color: #6c757d;
+  color: #ccc;
+  cursor: not-allowed;
+}
+.add-to-cart-btn.agotado-btn:hover {
+  background-color: #6c757d;
+}
+.stock-warning {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #D35400;
+  margin: 8px 0 0 0;
+  padding: 0;
+  line-height: 1.3;
+}
+
+/* --- Estilos de Página de Admin --- */
+/* Botón azul genérico */
+.azul {
+    background-color: #007bff !important;
+}
+.azul:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Inputs de Admin */
+input[type="number"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+/* Select de Admin */
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+.form-group {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Pestañas del Dashboard */
+.admin-nav {
+    display: flex;
+    width: 100%;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 2rem;
+}
+.admin-nav-btn {
+    flex-grow: 1;
+    border: none;
+    padding: 12px 10px;
+    background-color: #f9f9f9;
+    color: #007bff;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0;
+    border-radius: 6px 6px 0 0;
+}
+.admin-nav-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+.admin-nav-btn:not(.active):hover {
+    background-color: #eef7ff;
+}
+
+/* Reportes */
+.report-stats {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+.stat-box {
+    flex-grow: 1;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    text-align: center;
+}
+.stat-box h4 {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 1rem;
+}
+.stat-box p {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #007bff;
+}
+#stat-top-productos {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    text-align: left;
+}
+#stat-top-productos li {
+    font-size: 1rem;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+#stat-top-productos li strong {
+    color: #007bff;
+}
+
+/* --- Estilos del POS (Punto de Venta) --- */
+#pos-container {
+    max-width: 600px;
+}
+#scanner-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+#pos-carrito-lista {
+  list-style-type: none;
+  padding-left: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  padding: 10px;
+  background: #f9f9f9;
+}
+#pos-carrito-lista li {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #ccc;
+  display: flex;
+  justify-content: space-between;
+}
+#pos-carrito-total {
+  text-align: right;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+#boton-finalizar-venta {
+  background-color: #28a745;
+}
+#boton-finalizar-venta:hover {
+  background-color: #218838;
+}
+
+/* --- Estilos del Monitor de Ventas --- */
+#page-monitor h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+#lista-ventas-vivas {
+    list-style-type: none;
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid #eee;
+}
+.venta-item {
+    padding: 15px;
+    border-bottom: 1px dashed #ccc;
+    text-align: left;
+}
+.venta-item:first-child {
+    background-color: #eef7ff;
+}
+.venta-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.venta-item-header .pedido-id {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #007bff;
+}
+.venta-item-header .pedido-total {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #28a745;
+}
+.venta-item .pedido-fecha {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+.venta-item-productos {
+    list-style-type: none;
+    padding-left: 15px;
+    margin: 0;
+}
+.venta-item-productos li {
+    font-size: 0.9rem;
+    color: #333;
+}

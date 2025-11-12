@@ -1,0 +1,285 @@
+[
+  {
+    "id": 1,
+    "nombre": "Coca-Cola Original",
+    "descripcion": "Bebida gaseosa de 500ml.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_COCA_COLA",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 2,
+    "nombre": "Coca-Cola Sin Azúcar",
+    "descripcion": "Bebida gaseosa sin azúcar de 500ml.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_COCA_ZERO",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 3,
+    "nombre": "Agua Mineral Vital",
+    "descripcion": "Agua mineral sin gas, 600ml.",
+    "precio": 1000,
+    "imagen": "URL_IMAGEN_AGUA_VITAL",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 4,
+    "nombre": "Fanta Naranja",
+    "descripcion": "Bebida gaseosa sabor naranja, 500ml.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_FANTA",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 5,
+    "nombre": "Sprite",
+    "descripcion": "Bebida gaseosa sabor lima-limón, 500ml.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_SPRITE",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 6,
+    "nombre": "Kem Piña",
+    "descripcion": "Bebida gaseosa sabor piña, 500ml.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_KEM_PINA",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 7,
+    "nombre": "Bilz",
+    "descripcion": "Bebida gaseosa sabor papaya, 500ml.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_BILZ",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 8,
+    "nombre": "Jugo Andina Naranja",
+    "descripcion": "Jugo néctar de naranja en caja, 200ml.",
+    "precio": 800,
+    "imagen": "URL_IMAGEN_JUGO_ANDINA",
+    "categoria": "bebidas"
+  },
+  {
+    "id": 9,
+    "nombre": "Gatorade Cool Blue",
+    "descripcion": "Bebida isotónica sabor mora, 500ml.",
+    "precio": 1500,
+    "imagen": "URL_IMAGEN_GATORADE",
+    "categoria": "bebidas"
+  },
+  
+  {
+    "id": 10,
+    "nombre": "Papas Fritas Lays",
+    "descripcion": "Papas fritas corte americano, 42g.",
+    "precio": 1000,
+    "imagen": "URL_IMAGEN_LAYS",
+    "categoria": "snacks"
+  },
+  {
+    "id": 11,
+    "nombre": "Kryzpo Papas Fritas",
+    "descripcion": "Papas fritas corte tradicional, 40g.",
+    "precio": 1000,
+    "imagen": "URL_IMAGEN_KRYZPO",
+    "categoria": "snacks"
+  },
+  {
+    "id": 12,
+    "nombre": "Ramitas de Queso",
+    "descripcion": "Palitos de maíz horneados sabor queso.",
+    "precio": 800,
+    "imagen": "URL_IMAGEN_RAMITAS",
+    "categoria": "snacks"
+  },
+  {
+    "id": 13,
+    "nombre": "Doritos Queso",
+    "descripcion": "Triángulos de maíz sabor queso, 55g.",
+    "precio": 1000,
+    "imagen": "URL_IMAGEN_DORITOS",
+    "categoria": "snacks"
+  },
+  {
+    "id": 14,
+    "nombre": "Cheetos",
+    "descripcion": "Palitos de maíz con queso, 50g.",
+    "precio": 1000,
+    "imagen": "URL_IMAGEN_CHEETOS",
+    "categoria": "snacks"
+  },
+  {
+    "id": 15,
+    "nombre": "Maní Salado Marco Polo",
+    "descripcion": "Maní tostado y salado, 100g.",
+    "precio": 900,
+    "imagen": "URL_IMAGEN_MANI_SALADO",
+    "categoria": "snacks"
+  },
+  {
+    "id": 16,
+    "nombre": "Galletas Club Social",
+    "descripcion": "Galletas saladas individuales.",
+    "precio": 700,
+    "imagen": "URL_IMAGEN_CLUB_SOCIAL",
+    "categoria": "snacks"
+  },
+  {
+    "id": 17,
+    "nombre": "Galletas Grillets",
+    "descripcion": "Galletas de cóctel sabor mantequilla.",
+    "precio": 800,
+    "imagen": "URL_IMAGEN_GRILLETS",
+    "categoria": "snacks"
+  },
+  {
+    "id": 18,
+    "nombre": "Barra Cereal Nature Valley",
+    "descripcion": "Barra de granola y avena.",
+    "precio": 700,
+    "imagen": "URL_IMAGEN_NATURE_VALLEY",
+    "categoria": "snacks"
+  },
+
+  {
+    "id": 19,
+    "nombre": "Super 8",
+    "descripcion": "Galleta bañada en chocolate.",
+    "precio": 600,
+    "imagen": "URL_IMAGEN_SUPER8",
+    "categoria": "dulces"
+  },
+  {
+    "id": 20,
+    "nombre": "Sahne-Nuss",
+    "descripcion": "Chocolate con leche y almendras, 25g.",
+    "precio": 800,
+    "imagen": "URL_IMAGEN_SAHNENUSS",
+    "categoria": "dulces"
+  },
+  {
+    "id": 21,
+    "nombre": "Alfajor Bon o Bon",
+    "descripcion": "Alfajor relleno de pasta de maní.",
+    "precio": 700,
+    "imagen": "URL_IMAGEN_BONOBON",
+    "categoria": "dulces"
+  },
+  {
+    "id": 22,
+    "nombre": "Chokita",
+    "descripcion": "Galleta con merengue y chocolate.",
+    "precio": 600,
+    "imagen": "URL_IMAGEN_CHOKITA",
+    "categoria": "dulces"
+  },
+  {
+    "id": 23,
+    "nombre": "Trencito",
+    "descripcion": "Chocolate con leche clásico, 25g.",
+    "precio": 800,
+    "imagen": "URL_IMAGEN_TRENCITO",
+    "categoria": "dulces"
+  },
+  {
+    "id": 24,
+    "nombre": "Snickers",
+    "descripcion": "Chocolate con maní, caramelo y nougat.",
+    "precio": 900,
+    "imagen": "URL_IMAGEN_SNICKERS",
+    "categoria": "dulces"
+  },
+  {
+    "id": 25,
+    "nombre": "M&Ms Maní",
+    "descripcion": "Chocolates confitados con maní.",
+    "precio": 1000,
+    "imagen": "URL_IMAGEN_MMS_MANI",
+    "categoria": "dulces"
+  },
+  {
+    "id": 26,
+    "nombre": "Gomitas Frugelé",
+    "descripcion": "Gomitas de almidón sabor frutas.",
+    "precio": 700,
+    "imagen": "URL_IMAGEN_FRUGELE",
+    "categoria": "dulces"
+  },
+  {
+    "id": 27,
+    "nombre": "Koyak",
+    "descripcion": "Chupetín con chicle.",
+    "precio": 500,
+    "imagen": "URL_IMAGEN_KOYAK",
+    "categoria": "dulces"
+  },
+  
+  {
+    "id": 28,
+    "nombre": "Té Caliente",
+    "descripcion": "Té negro o de hierbas, vaso 8oz.",
+    "precio": 700,
+    "imagen": "URL_IMAGEN_TE_CALIENTE",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 29,
+    "nombre": "Café Espresso",
+    "descripcion": "Café corto e intenso, 3oz.",
+    "precio": 800,
+    "imagen": "URL_IMAGEN_ESPRESSO",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 30,
+    "nombre": "Café Americano",
+    "descripcion": "Espresso diluido en agua caliente, 8oz.",
+    "precio": 900,
+    "imagen": "URL_IMAGEN_AMERICANO",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 31,
+    "nombre": "Cappuccino",
+    "descripcion": "Espresso, leche y espuma de leche, 8oz.",
+    "precio": 1200,
+    "imagen": "URL_IMAGEN_CAPPUCCINO",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 32,
+    "nombre": "Mokaccino",
+    "descripcion": "Cappuccino con un toque de chocolate, 8oz.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_MOKACCINO",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 33,
+    "nombre": "Latte Vainilla",
+    "descripcion": "Espresso con leche y sabor vainilla, 8oz.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_LATTE_VAINILLA",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 34,
+    "nombre": "Chocolate Caliente",
+    "descripcion": "Chocolate Nescafé espeso y cremoso, 8oz.",
+    "precio": 1200,
+    "imagen": "URL_IMAGEN_CHOCOLATE_CALIENTE",
+    "categoria": "bebidas-calientes"
+  },
+  {
+    "id": 35,
+    "nombre": "Cappuccino Vainilla",
+    "descripcion": "Cappuccino clásico con esencia de vainilla.",
+    "precio": 1300,
+    "imagen": "URL_IMAGEN_CAPPU_VAINILLA",
+    "categoria": "bebidas-calientes"
+  }
+]

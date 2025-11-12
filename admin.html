@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor" id="login-container">
+        <h2>Acceso de Administrador</h2>
+        <div class="form-group">
+            <label for="password-input">Contraseña de Administrador:</label>
+            <input type="password" id="password-input" placeholder="Tu contraseña secreta">
+        </div>
+        <button id="login-button" class="azul">Entrar</button>
+        <p id="login-error" style="color: red; display: none;"></p>
+    </div>
+
+    <div class="contenedor oculto" id="dashboard-container">
+        <nav class="admin-nav">
+            <button id="nav-stock" class="admin-nav-btn active">Reponer Stock</button>
+            <button id="nav-reportes" class="admin-nav-btn">Reporte de Ventas</button>
+        </nav>
+
+        <div id="page-stock" class="admin-page">
+            <h2>Panel de Control: Añadir Stock</h2>
+            <p>Selecciona un producto y la cantidad a añadir al inventario.</p>
+            
+            <div class="form-group">
+                <label for="product-select">Producto:</label>
+                <select id="product-select">
+                    <option value="">Cargando productos...</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="quantity-input">Cantidad a Añadir:</label>
+                <input type="number" id="quantity-input" placeholder="Ej: 50" min="1">
+            </div>
+            
+            <button id="add-stock-button" class="azul">Añadir Stock</button>
+            <p id="admin-message" style="color: green;"></p>
+        </div>
+        
+        <div id="page-reportes" class="admin-page oculto">
+            <h2>Reporte Total de Productos Vendidos</h2>
+            
+            <div id="reporte-contenido">
+                <div class="report-stats">
+                    <div class="stat-box">
+                        <h4>Ingresos Totales</h4>
+                        <p id="stat-ingresos">$ 0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Ventas Totales</h4>
+                        <p id="stat-ventas">0</p>
+                    </div>
+                </div>
+                
+                <h4>Productos Vendidos (de más a menos)</h4>
+                <ul id="stat-top-productos">
+                    </ul>
+                <button id="refresh-report-btn" class="azul">Actualizar Reporte</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

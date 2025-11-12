@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Ventas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor" id="login-container">
+        <h2>Monitor de Ventas (Acceso)</h2>
+        <div class="form-group">
+            <label for="password-input">Contraseña de Administrador:</label>
+            <input type="password" id="password-input" placeholder="Tu contraseña secreta">
+        </div>
+        <button id="login-button" class="azul">Entrar</button>
+        <p id="login-error" style="color: red; display: none;"></p>
+    </div>
+
+    <div class="contenedor oculto" id="page-monitor">
+        <h2>Monitor de Ventas en Vivo</h2>
+        <p>Esta página se actualizará automáticamente cada 5 segundos.</p>
+        
+        <ul id="lista-ventas-vivas">
+            <li>Esperando la primera venta...</li>
+        </ul>
+        
+    </div>
+
+    <script src="monitor.js"></script>
+</body>
+</html>

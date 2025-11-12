@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <div class="contenedor" id="contenedor-seleccion">
+
+      <h2>Elige tus productos</h2>
+      
+      <div id="categorias-grid" class="grid-container">
+        </div>
+
+      <div id="productos-grid-container" class="oculto">
+        <button id="boton-volver-categorias" class="volver-btn">&larr; Volver a Categorías</button>
+        <h3 id="nombre-categoria-seleccionada"></h3>
+        <div id="productos-grid" class="grid-container">
+          </div>
+      </div>
+      
+      <div id="carrito-resumen" class="oculto">
+        <h3>Tu Carrito</h3>
+        <ul id="carrito-lista">
+          </ul>
+        <h4 id="carrito-total">Total: $ 0</h4>
+        <button id="boton-ir-a-pagar">Ir a Pagar</button>
+      </div>
+
+    </div>
+
+    <div class="contenedor oculto" id="contenedor-pago">
+      <h2>Confirmar Pago</h2>
+      <p>Resumen de tu pedido:</p>
+      
+      <ul id="pago-lista"></ul>
+      <h4 id="pago-total" class="precio-final">$ 0</h4>
+      
+      <button type="button" id="boton-pagar-final">Confirmar y Pagar</button>
+
+    </div>
+
+    <div class="contenedor oculto" id="contenedor-qr">
+      <h2>¡Pedido Confirmado!</h2>
+      <p>Usa este código QR para retirar tu pedido.</p>
+      <p>Tu ID de retiro es: <strong id="qr-order-id"></strong></p>
+      
+      <div id="qrcode"></div>
+      
+      <button id="boton-nuevo-pedido">Hacer nuevo pedido</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
