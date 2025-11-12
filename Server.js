@@ -16,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 // --- 3. CONEXIÓN A MONGODB ---
-const dbURL = 'mongodb://localhost:27017/MiTienda';
+// ¡CONEXIÓN A LA NUBE (ATLAS)!
+const dbURL = 'mongodb+srv://joacomayega_db_user:RR9JtZoNiGOnlDy5@cluster0.k7gc9zz.mongodb.net/MiTienda?retryWrites=true&w=majority';
 
 mongoose.connect(dbURL)
   .then(() => {
