@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function loadAdminProducts() {
         try {
-            const response = await fetch('http://localhost:3000/api/admin/productos');
+            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/productos');
             const productos = await response.json();
             
             productSelect.innerHTML = '<option value="">-- Selecciona un producto --</option>';
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/admin/add-stock', {
+            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/add-stock', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statTopProductos.innerHTML = "<li>Cargando reporte...</li>";
         
         try {
-            const response = await fetch('http://localhost:3000/api/admin/reporte-ventas', {
+            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/reporte-ventas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Buscando nuevas ventas..."); // Puedes ver esto en la consola (F12)
 
         try {
-            const response = await fetch('http://localhost:3000/api/admin/ultimos-pedidos', {
+            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/ultimos-pedidos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
