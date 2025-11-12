@@ -16,7 +16,7 @@ const ADMIN_PASSWORD = "admin123"; // <-- ¡Cambia esto por tu contraseña secre
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-
+const dbURL = process.env.DATABASE_URL;
 
 mongoose.connect(dbURL)
   .then(() => {
