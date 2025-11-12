@@ -16,8 +16,11 @@ app.use(cors());
 app.use(express.json());
 
 // --- 3. CONEXIÓN A MONGODB ---
-// ¡CONEXIÓN A LA NUBE (ATLAS)!
-const dbURL = 'mongodb+srv://joacomayega_db_user:RR9JtZoNiGOnlDy5@cluster0.k7gc9zz.mongodb.net/MiTienda?retryWrites=true&w=majority';
+// Leer la URL secreta desde las Variables de Entorno
+const dbURL = process.env.DATABASE_URL;
+
+mongoose.connect(dbURL)
+// ... (el resto de tu código .then() .catch() sigue igual) ...
 
 mongoose.connect(dbURL)
   .then(() => {
