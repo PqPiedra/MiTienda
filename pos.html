@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Venta (POS)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor" id="pos-container">
+        <h2>Punto de Venta</h2>
+        
+        <div class="form-group">
+            <label for="scanner-input">Escanear Código de Barras:</label>
+            <input type="text" id="scanner-input" placeholder="Esperando escaneo..." autofocus>
+        </div>
+        
+        <p id="pos-message" style="color: red; height: 1.2em; font-weight: bold;"></p>
+        
+        <div id="pos-carrito-resumen">
+            <h3>Venta Actual</h3>
+            <ul id="pos-carrito-lista">
+                <li>Escanea un producto para comenzar.</li>
+            </ul>
+            <h4 id="pos-carrito-total">Total: $ 0</h4>
+            
+            <button id="boton-finalizar-venta" disabled style="background-color: #6c757d;">Finalizar Venta (Cobrar)</button>
+        </div>
+    </div>
+
+    <script src="pos.js"></script>
+</body>
+</html>

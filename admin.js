@@ -1,181 +1,100 @@
-// Contraseña del Front-End (debe coincidir con la del server.js)
-const ADMIN_PASSWORD = "admin123"; // <-- ¡Debe ser la misma que en server.js!
+const ADMIN_PASSWORD = "admin123"; 
+// URL DE PRODUCCIÓN (RENDER)
+const API_URL = "https://mi-tienda-final.onrender.com";
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Obtener Elementos ---
-    const loginContainer = document.getElementById('login-container');
-    const dashboardContainer = document.getElementById('dashboard-container');
-    const loginButton = document.getElementById('login-button');
-    const passwordInput = document.getElementById('password-input');
-    const loginError = document.getElementById('login-error');
+    let currentPassword = "";
     
-    // Pestañas
-    const navStockBtn = document.getElementById('nav-stock');
-    const navReportesBtn = document.getElementById('nav-reportes');
-    const pageStock = document.getElementById('page-stock');
-    const pageReportes = document.getElementById('page-reportes');
-    
-    // Página Stock
-    const productSelect = document.getElementById('product-select');
-    const quantityInput = document.getElementById('quantity-input');
-    const addStockButton = document.getElementById('add-stock-button');
-    const adminMessage = document.getElementById('admin-message');
-
-    // Página Reportes
-    const statIngresos = document.getElementById('stat-ingresos');
-    const statVentas = document.getElementById('stat-ventas');
-    const statTopProductos = document.getElementById('stat-top-productos');
-    const refreshReportBtn = document.getElementById('refresh-report-btn');
-
-    let currentPassword = ""; // Guardar la contraseña aquí después del login
-
-    // --- Lógica de Login ---
-    loginButton.addEventListener('click', () => {
-        if (passwordInput.value === ADMIN_PASSWORD) {
-            currentPassword = passwordInput.value; 
-            loginContainer.classList.add('oculto');
-            dashboardContainer.classList.remove('oculto');
-            loadAdminProducts();
+    document.getElementById('login-button').addEventListener('click', () => {
+        const pass = document.getElementById('password-input').value;
+        if (pass === ADMIN_PASSWORD) {
+            currentPassword = pass;
+            document.getElementById('login-container').classList.add('oculto');
+            document.getElementById('dashboard-container').classList.remove('oculto');
+            loadAllProducts();
         } else {
-            loginError.innerText = "Contraseña incorrecta.";
-            loginError.style.display = 'block';
+            document.getElementById('login-error').style.display = 'block';
         }
     });
 
-    // --- Lógica de Pestañas ---
-    navStockBtn.addEventListener('click', () => {
-        pageReportes.classList.add('oculto');
-        pageStock.classList.remove('oculto');
-        navReportesBtn.classList.remove('active');
-        navStockBtn.classList.add('active');
-    });
-
-    navReportesBtn.addEventListener('click', () => {
-        pageStock.classList.add('oculto');
-        pageReportes.classList.remove('oculto');
-        navStockBtn.classList.remove('active');
-        navReportesBtn.classList.add('active');
-        loadReport();
-    });
-
-    // --- Lógica del Panel de Stock ---
-    
-    async function loadAdminProducts() {
-        try {
-            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/productos');
-            const productos = await response.json();
-            
-            productSelect.innerHTML = '<option value="">-- Selecciona un producto --</option>';
-            
-            productos.forEach(p => {
-                const option = document.createElement('option');
-                option.value = p.id;
-                option.text = `${p.nombre} (Stock: ${p.stock})`;
-                productSelect.appendChild(option);
+    const tabs = ['stock', 'crear', 'eliminar', 'reportes'];
+    tabs.forEach(tab => {
+        document.getElementById(`nav-${tab}`).addEventListener('click', (e) => {
+            tabs.forEach(t => {
+                document.getElementById(`page-${t}`).classList.add('oculto');
+                document.getElementById(`nav-${t}`).classList.remove('active');
             });
-            
-        } catch (error) {
-            adminMessage.style.color = 'red';
-            adminMessage.innerText = "Error al cargar productos.";
-        }
+            document.getElementById(`page-${tab}`).classList.remove('oculto');
+            e.target.classList.add('active');
+            if(tab === 'reportes') loadReport();
+            if(tab === 'stock' || tab === 'eliminar') loadAllProducts();
+        });
+    });
+
+    async function sendPost(endpoint, data) {
+        data.password = currentPassword;
+        try {
+            const res = await fetch(`${API_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
+            if(!res.ok) throw new Error(json.error);
+            if(json.mensaje) alert(json.mensaje);
+            return json;
+        } catch (e) { alert(e.message); return null; }
     }
 
-    addStockButton.addEventListener('click', async () => {
-        const productId = productSelect.value;
-        const quantityToAdd = quantityInput.value;
-        
-        if (!productId || !quantityToAdd || quantityToAdd <= 0) {
-            adminMessage.style.color = 'red';
-            adminMessage.innerText = "Por favor, selecciona un producto y una cantidad válida.";
-            return;
-        }
-
-        try {
-            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/add-stock', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    productId: parseInt(productId),
-                    quantityToAdd: parseInt(quantityToAdd),
-                    password: currentPassword 
-                })
+    async function loadAllProducts() {
+        const res = await fetch(`${API_URL}/api/admin/productos`);
+        const prods = await res.json();
+        const selects = [document.getElementById('product-select'), document.getElementById('delete-product-select')];
+        selects.forEach(sel => {
+            sel.innerHTML = '<option value="">-- Selecciona --</option>';
+            prods.forEach(p => {
+                sel.innerHTML += `<option value="${p.id}">${p.nombre} (Stock: ${p.stock})</option>`;
             });
+        });
+    }
 
-            const data = await response.json();
+    document.getElementById('add-stock-button').addEventListener('click', async () => {
+        const id = document.getElementById('product-select').value;
+        const qty = document.getElementById('quantity-input').value;
+        await sendPost('/api/admin/add-stock', { productId: id, quantityToAdd: qty });
+        loadAllProducts();
+    });
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Error desconocido');
-            }
+    document.getElementById('create-product-button').addEventListener('click', async () => {
+        const nuevo = {
+            nombre: document.getElementById('new-nombre').value,
+            descripcion: document.getElementById('new-desc').value,
+            precio: document.getElementById('new-precio').value,
+            categoria: document.getElementById('new-categoria').value,
+            imagen: document.getElementById('new-imagen').value,
+            stock: document.getElementById('new-stock').value,
+            codigoDeBarra: document.getElementById('new-barcode').value
+        };
+        await sendPost('/api/admin/crear-producto', { nuevoProducto: nuevo });
+    });
 
-            adminMessage.style.color = 'green';
-            adminMessage.innerText = `¡Éxito! Stock actualizado.`;
-            
-            quantityInput.value = "";
-            loadAdminProducts(); // Recargar la lista
-
-        } catch (error) {
-            adminMessage.style.color = 'red';
-            adminMessage.innerText = `Error: ${error.message}`;
+    document.getElementById('delete-product-button').addEventListener('click', async () => {
+        const id = document.getElementById('delete-product-select').value;
+        if(confirm("¿Eliminar producto?")) {
+            await sendPost('/api/admin/eliminar-producto', { productId: id });
+            loadAllProducts();
         }
     });
-    
-    // --- Lógica del Panel de Reportes ---
-    refreshReportBtn.addEventListener('click', loadReport);
 
     async function loadReport() {
-        statIngresos.innerText = "...";
-        statVentas.innerText = "...";
-        statTopProductos.innerHTML = "<li>Cargando reporte...</li>";
-        
-        try {
-            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/reporte-ventas', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ password: currentPassword }) 
-            });
-            
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.error || 'No se pudo cargar el reporte.');
-            }
-            
-            statIngresos.innerText = formatearPrecio(data.stats.totalIngresos);
-            statVentas.innerText = data.stats.totalVentas;
-            
-            statTopProductos.innerHTML = "";
-            if (data.topProductos.length === 0) {
-                statTopProductos.innerHTML = "<li>Aún no hay ventas registradas.</li>";
-            }
-            
-            // Esta función recibe la lista ya ordenada desde el servidor
-            data.topProductos.forEach(prod => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span>${prod._id}</span> 
-                    <strong>${prod.totalVendido} vendidos</strong>
-                `;
-                statTopProductos.appendChild(li);
-            });
-            
-        } catch (error) {
-            console.error("Error al cargar reporte:", error);
-            statTopProductos.innerHTML = `<li style="color:red;">Error al cargar reporte: ${error.message}</li>`;
+        const res = await sendPost('/api/admin/reporte-ventas', {});
+        if(res) {
+            document.getElementById('stat-ingresos').innerText = `$ ${new Intl.NumberFormat('es-CL').format(res.stats.totalIngresos)}`;
+            document.getElementById('stat-ventas').innerText = res.stats.totalVentas;
+            const list = document.getElementById('stat-top-productos');
+            list.innerHTML = "";
+            res.topProductos.forEach(p => list.innerHTML += `<li><span>${p._id}</span><strong>${p.totalVendido}</strong></li>`);
         }
     }
-    
-    function formatearPrecio(precio) {
-      if (typeof precio !== 'number') {
-          precio = 0;
-      }
-      return new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP'
-      }).format(precio);
-    }
+    document.getElementById('refresh-report-btn').addEventListener('click', loadReport);
 });

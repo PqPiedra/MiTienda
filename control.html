@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Control Interno de Errores</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem; }
+        th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .error-row { background-color: #fff5f5; }
+        .error-origen { font-weight: bold; color: #d9534f; }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h2>Registro de Errores (Logs)</h2>
+        
+        <div class="form-group">
+            <input type="password" id="control-pass" placeholder="Contraseña Admin" style="width: 100%; padding: 10px;">
+            <button id="btn-ver-logs" class="azul" style="margin-top: 10px;">Cargar Logs</button>
+        </div>
+
+        <div id="logs-area" class="oculto">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Origen</th>
+                        <th>Mensaje de Error</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-errores"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // URL DE PRODUCCIÓN (RENDER)
+        const API_URL = "https://mi-tienda-final.onrender.com";
+        
+        document.getElementById('btn-ver-logs').addEventListener('click', async () => {
+            const pass = document.getElementById('control-pass').value;
+            try {
+                const res = await fetch(`${API_URL}/api/admin/errores`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ password: pass })
+                });
+                
+                if(!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error || "Error de acceso");
+                }
+                
+                const data = await res.json();
+                const tbody = document.getElementById('tabla-errores');
+                tbody.innerHTML = "";
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = "<tr><td colspan='3'>Sin errores registrados.</td></tr>";
+                } else {
+                    data.forEach(err => {
+                        const fecha = new Date(err.fecha).toLocaleString();
+                        tbody.innerHTML += `
+                            <tr class="error-row">
+                                <td>${fecha}</td>
+                                <td class="error-origen">${err.origen}</td>
+                                <td>${err.mensaje}</td>
+                            </tr>`;
+                    });
+                }
+                document.getElementById('logs-area').classList.remove('oculto');
+
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        });
+    </script>
+</body>
+</html>
