@@ -1,7 +1,6 @@
-// URL DE PRODUCCIÓN
+// URL DE PRODUCCIÓN (RENDER)
 const API_URL = "https://mi-tienda-final.onrender.com";
 
-// --- DATOS DE CATEGORÍAS ---
 const categoriasInfo = {
   'bebidas': { nombre: "Bebidas", imagen: "images/bebidas.jpg", descripcion: "Refrescantes opciones." },
   'snacks': { nombre: "Snacks", imagen: "images/snacks.jpg", descripcion: "El complemento perfecto." },
@@ -12,7 +11,6 @@ const categoriasInfo = {
 let productosActuales = []; 
 let carrito = []; 
 
-// ... (Elementos DOM - Copiar del anterior si falta, pero la lógica clave es la URL)
 const contSeleccion = document.getElementById("contenedor-seleccion");
 const contPago = document.getElementById("contenedor-pago");
 const contQr = document.getElementById("contenedor-qr");
@@ -56,7 +54,6 @@ async function mostrarProductosDeCategoria(categoriaKey, nombreDisplay) {
   productosGrid.innerHTML = '<p>Cargando productos...</p>'; 
 
   try {
-    // URL DE RENDER
     const respuesta = await fetch(`${API_URL}/api/productos?categoria=${categoriaKey}`);
     if (!respuesta.ok) throw new Error("Error al cargar");
     productosActuales = await respuesta.json(); 
@@ -71,7 +68,6 @@ async function mostrarProductosDeCategoria(categoriaKey, nombreDisplay) {
       const item = document.createElement('div');
       let botonHTML = '';
       let stockHTML = ''; 
-
       if (producto.stock > 0) {
         item.classList.add('grid-item');
         botonHTML = `<button class="add-to-cart-btn">Añadir</button>`;
@@ -80,7 +76,6 @@ async function mostrarProductosDeCategoria(categoriaKey, nombreDisplay) {
         item.classList.add('grid-item', 'agotado');
         botonHTML = `<button class="add-to-cart-btn agotado-btn" disabled>Agotado</button>`;
       }
-
       item.innerHTML = `<img src="${producto.imagen}"><h4>${producto.nombre}</h4><p>${producto.descripcion}</p>${stockHTML}<span class="precio">${formatearPrecio(producto.precio)}</span>${botonHTML}`;
       if (producto.stock > 0) {
         item.querySelector('.add-to-cart-btn').addEventListener('click', (e) => { e.stopPropagation(); anadirProductoAlCarrito(index); });
@@ -167,7 +162,6 @@ botonPagarFinal.addEventListener("click", async () => {
   botonPagarFinal.innerText = "Procesando...";
   try {
     const payload = carrito.map(i => ({ id: i.producto.id, nombre: i.producto.nombre, precio: i.producto.precio, cantidad: i.cantidad }));
-    // URL DE RENDER
     const res = await fetch(`${API_URL}/api/pedidos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -175,13 +169,11 @@ botonPagarFinal.addEventListener("click", async () => {
     });
     if (!res.ok) throw new Error();
     const data = await res.json();
-    
     contPago.classList.add("oculto");
     contQr.classList.remove("oculto");
     qrOrderId.innerText = data.idPedido;
     qrCodeDiv.innerHTML = "";
     new QRCode(qrCodeDiv, { text: data.idPedido.toString(), width: 150, height: 150 });
-
   } catch (error) {
     alert("Error al procesar pago.");
     botonPagarFinal.disabled = false;
@@ -200,5 +192,4 @@ function resetAplicacion() {
   qrCodeDiv.innerHTML = ""; qrOrderId.innerText = "";
   cargarCategorias(); 
 }
-
 document.addEventListener('DOMContentLoaded', cargarCategorias);

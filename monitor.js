@@ -1,107 +1,67 @@
-// Contraseña del Front-End (debe coincidir con la del server.js)
-const ADMIN_PASSWORD = "admin123"; // <-- ¡Debe ser la misma que en server.js!
+const ADMIN_PASSWORD = "admin123";
+const API_URL = "https://mi-tienda-final.onrender.com"; // Producción
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Obtener Elementos ---
-    const loginContainer = document.getElementById('login-container');
-    const pageMonitor = document.getElementById('page-monitor');
-    const loginButton = document.getElementById('login-button');
-    const passwordInput = document.getElementById('password-input');
-    const loginError = document.getElementById('login-error');
+    let currentPassword = ""; 
+    const loginBtn = document.getElementById('login-button');
     
-    const listaVentasVivas = document.getElementById('lista-ventas-vivas');
-    
-    let currentPassword = ""; // Guardar la contraseña aquí
-    
-    // --- Lógica de Login ---
-    loginButton.addEventListener('click', () => {
-        if (passwordInput.value === ADMIN_PASSWORD) {
-            currentPassword = passwordInput.value; 
-            loginContainer.classList.add('oculto');
-            pageMonitor.classList.remove('oculto');
-            
-            // 1. Cargar las ventas inmediatamente
+    loginBtn.addEventListener('click', () => {
+        const pass = document.getElementById('password-input').value;
+        if (pass === ADMIN_PASSWORD) {
+            currentPassword = pass; 
+            document.getElementById('login-container').classList.add('oculto');
+            document.getElementById('page-monitor').classList.remove('oculto');
             cargarVentas();
-            
-            // 2. ¡EL POLLING! Actualizar las ventas cada 5 segundos
-            setInterval(cargarVentas, 5000); // 5000 milisegundos = 5 segundos
-            
-        } else {
-            loginError.innerText = "Contraseña incorrecta.";
-            loginError.style.display = 'block';
+            setInterval(cargarVentas, 5000);
+            document.getElementById('qr-confirm-input').focus();
+        } else document.getElementById('login-error').style.display = 'block';
+    });
+
+    document.getElementById('qr-confirm-input').addEventListener('keypress', async (e) => {
+        if (e.key === 'Enter') {
+            const id = e.target.value;
+            if(id) { await confirmarEntrega(id); e.target.value = ""; }
         }
     });
 
-    // --- Lógica del Monitor ---
-    async function cargarVentas() {
-        if (currentPassword === "") return; // No hacer nada si no se ha logueado
-
-        console.log("Buscando nuevas ventas..."); // Puedes ver esto en la consola (F12)
-
+    async function confirmarEntrega(id) {
+        const msg = document.getElementById('qr-message');
+        msg.innerText = "Validando...";
         try {
-            const response = await fetch('https://mi-tienda-final.onrender.com/api/admin/ultimos-pedidos', {
+            const res = await fetch(`${API_URL}/api/admin/confirmar-entrega`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ password: currentPassword }) // Enviar la contraseña
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idPedido: id, password: currentPassword })
             });
-            
-            const pedidos = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(pedidos.error || 'No se pudo cargar el reporte.');
-            }
-            
-            // Dibujar la lista de ventas
-            listaVentasVivas.innerHTML = ""; // Limpiar la lista
-            
-            if (pedidos.length === 0) {
-                listaVentasVivas.innerHTML = "<li>Aún no hay ventas registradas.</li>";
-                return;
-            }
-            
-            pedidos.forEach(pedido => {
-                const li = document.createElement('li');
-                li.classList.add('venta-item');
-                
-                // Formatear la fecha
-                const fecha = new Date(pedido.fecha).toLocaleString('es-CL');
-                
-                // Crear la lista de productos
-                let productosHTML = '<ul class="venta-item-productos">';
-                pedido.items.forEach(item => {
-                    productosHTML += `<li>${item.cantidad}x ${item.nombre}</li>`;
-                });
-                productosHTML += '</ul>';
-                
-                // Insertar todo el HTML
-                li.innerHTML = `
-                    <div class="venta-item-header">
-                        <span class="pedido-id">${pedido.idPedido}</span>
-                        <span class="pedido-total">${formatearPrecio(pedido.total)}</span>
-                    </div>
-                    <p class="pedido-fecha">${fecha}</p>
-                    ${productosHTML}
-                `;
-                listaVentasVivas.appendChild(li);
-            });
-            
-        } catch (error) {
-            console.error("Error al cargar ventas:", error);
-            listaVentasVivas.innerHTML = `<li style="color:red;">Error al cargar ventas: ${error.message}</li>`;
-        }
+            const data = await res.json();
+            if (res.ok) { msg.innerText = `✅ ${data.mensaje}`; msg.style.color = "green"; cargarVentas(); }
+            else { msg.innerText = `❌ ${data.error}`; msg.style.color = "red"; }
+        } catch (error) { msg.innerText = "Error conexión"; }
+        setTimeout(() => { msg.innerText = ""; }, 4000);
     }
-    
-    // Función de formateo de precio (necesaria también aquí)
-    function formatearPrecio(precio) {
-      if (typeof precio !== 'number') {
-          precio = 0;
-      }
-      return new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP'
-      }).format(precio);
+
+    async function cargarVentas() {
+        if (!currentPassword) return; 
+        try {
+            const res = await fetch(`${API_URL}/api/admin/ultimos-pedidos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: currentPassword }) 
+            });
+            const pedidos = await res.json();
+            const lista = document.getElementById('lista-ventas-vivas');
+            lista.innerHTML = ""; 
+            
+            pedidos.forEach(p => {
+                const li = document.createElement('li');
+                li.classList.add('venta-item', p.estado === 'entregado' ? 'entregado' : 'pendiente');
+                const prods = p.items.map(i => `<li>${i.cantidad}x ${i.nombre}</li>`).join('');
+                const btn = p.estado === 'pendiente' ? `<button class="btn-entregar" data-id="${p.idPedido}">Entregar</button>` : '✅';
+                
+                li.innerHTML = `<div class="venta-item-header"><span class="pedido-id">#${p.idPedido}</span><span class="status-badge status-${p.estado}">${p.estado}</span></div><div class="venta-item-header"><span class="pedido-total">$${p.total}</span></div><ul class="venta-item-productos">${prods}</ul><div style="text-align:right;">${btn}</div>`;
+                if(p.estado === 'pendiente') li.querySelector('.btn-entregar').addEventListener('click', () => confirmarEntrega(p.idPedido));
+                lista.appendChild(li);
+            });
+        } catch (e) { console.error(e); }
     }
 });

@@ -1,6 +1,5 @@
 const ADMIN_PASSWORD = "admin123"; 
-// URL DE PRODUCCIÓN (RENDER)
-const API_URL = "https://mi-tienda-final.onrender.com";
+const API_URL = "https://mi-tienda-final.onrender.com"; // Producción
 
 document.addEventListener('DOMContentLoaded', () => {
     let currentPassword = "";
@@ -26,19 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             document.getElementById(`page-${tab}`).classList.remove('oculto');
             e.target.classList.add('active');
-            if(tab === 'reportes') loadReport();
-            if(tab === 'stock' || tab === 'eliminar') loadAllProducts();
+            if(tab === 'reportes') loadReport(); else loadAllProducts();
         });
     });
 
-    async function sendPost(endpoint, data) {
+    async function sendPost(end, data) {
         data.password = currentPassword;
         try {
-            const res = await fetch(`${API_URL}${endpoint}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+            const res = await fetch(`${API_URL}${end}`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)});
             const json = await res.json();
             if(!res.ok) throw new Error(json.error);
             if(json.mensaje) alert(json.mensaje);
@@ -52,9 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selects = [document.getElementById('product-select'), document.getElementById('delete-product-select')];
         selects.forEach(sel => {
             sel.innerHTML = '<option value="">-- Selecciona --</option>';
-            prods.forEach(p => {
-                sel.innerHTML += `<option value="${p.id}">${p.nombre} (Stock: ${p.stock})</option>`;
-            });
+            prods.forEach(p => sel.innerHTML += `<option value="${p.id}">${p.nombre} (Stock: ${p.stock})</option>`);
         });
     }
 
@@ -63,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const qty = document.getElementById('quantity-input').value;
         await sendPost('/api/admin/add-stock', { productId: id, quantityToAdd: qty });
         loadAllProducts();
+        document.getElementById('quantity-input').value = "";
     });
 
     document.getElementById('create-product-button').addEventListener('click', async () => {
@@ -79,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('delete-product-button').addEventListener('click', async () => {
-        const id = document.getElementById('delete-product-select').value;
-        if(confirm("¿Eliminar producto?")) {
-            await sendPost('/api/admin/eliminar-producto', { productId: id });
+        if(confirm("¿Eliminar?")) {
+            await sendPost('/api/admin/eliminar-producto', { productId: document.getElementById('delete-product-select').value });
             loadAllProducts();
         }
     });

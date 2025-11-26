@@ -3,7 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Puerto dinámico para Render
+const PORT = process.env.PORT || 3000; // Render asigna puerto automático
 
 const ADMIN_PASSWORD = "admin123"; 
 
@@ -12,6 +12,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // --- CONEXIÓN A MONGODB (ATLAS) ---
+// Render leerá la variable de entorno que configuramos
 const dbURL = process.env.DATABASE_URL; 
 
 mongoose.connect(dbURL)
@@ -221,6 +222,7 @@ app.post('/api/admin/confirmar-entrega', async (req, res) => {
         await pedido.save();
         res.json({ mensaje: `Pedido #${req.body.idPedido} entregado.` });
     } catch (error) {
+        logSystemError(error.message, 'CONFIRMAR ENTREGA', error);
         res.status(500).json({ error: 'Error' });
     }
 });
@@ -231,7 +233,7 @@ app.post('/api/admin/errores', async (req, res) => {
         const errores = await ErrorLog.find().sort({ fecha: -1 }).limit(50);
         res.json(errores);
     } catch (error) {
-        res.status(500).json({ error: 'Error' });
+        res.status(500).json({ error: 'Error al leer logs' });
     }
 });
 
