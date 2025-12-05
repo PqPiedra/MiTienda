@@ -2,12 +2,19 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>Admin - Estado de Resultados</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .tabla-financiera { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+        .tabla-financiera td { padding: 10px; border-bottom: 1px solid #eee; }
+        .tabla-financiera .fila-resultado { font-weight: bold; background-color: #f0f8ff; color: #007bff; font-size: 1.1rem; }
+        .monto { text-align: right; font-family: monospace; }
+        .concepto { text-align: left; }
+    </style>
 </head>
 <body>
     <div class="contenedor" id="login-container">
-        <h2>Admin</h2>
+        <h2>Administración</h2>
         <div class="form-group"><input type="password" id="password-input" placeholder="Contraseña"></div>
         <button id="login-button" class="azul">Entrar</button>
         <p id="login-error" style="color: red; display: none;"></p>
@@ -18,45 +25,60 @@
             <button id="nav-stock" class="admin-nav-btn active">Stock</button>
             <button id="nav-crear" class="admin-nav-btn">Crear</button>
             <button id="nav-eliminar" class="admin-nav-btn">Eliminar</button>
-            <button id="nav-reportes" class="admin-nav-btn">Reportes</button>
+            <button id="nav-reportes" class="admin-nav-btn">Finanzas</button>
         </nav>
 
         <div id="page-stock" class="admin-page">
             <h2>Reponer Stock</h2>
             <div class="form-group"><select id="product-select"><option>Cargando...</option></select></div>
-            <div class="form-group"><input type="number" id="quantity-input" placeholder="Cantidad"></div>
-            <button id="add-stock-button" class="azul">Añadir</button>
+            <div class="form-group"><input type="number" id="quantity-input" placeholder="Cantidad a añadir"></div>
+            <button id="add-stock-button" class="azul">Actualizar Stock</button>
         </div>
 
         <div id="page-crear" class="admin-page oculto">
-            <h2>Crear Producto</h2>
-            <div class="form-group"><input type="text" id="new-nombre" placeholder="Nombre"></div>
-            <div class="form-group"><input type="text" id="new-desc" placeholder="Descripción"></div>
-            <div class="form-group"><input type="number" id="new-precio" placeholder="Precio"></div>
+            <h2>Nuevo Producto</h2>
+            <div class="form-group"><input type="text" id="new-nombre" placeholder="Nombre del Producto"></div>
+            <div class="form-group"><input type="text" id="new-desc" placeholder="Descripción corta"></div>
+            
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex:1;">
+                    <label style="font-size:0.8rem;">Costo (Compra)</label>
+                    <input type="number" id="new-costo" placeholder="$ Costo">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label style="font-size:0.8rem;">Precio (Venta)</label>
+                    <input type="number" id="new-precio" placeholder="$ Venta">
+                </div>
+            </div>
+
             <div class="form-group"><select id="new-categoria">
                 <option value="bebidas">Bebidas</option><option value="snacks">Snacks</option>
                 <option value="dulces">Dulces</option><option value="bebidas-calientes">Calientes</option>
             </select></div>
-            <div class="form-group"><input type="text" id="new-imagen" placeholder="Imagen (ej: images/foto.jpg)"></div>
+            <div class="form-group"><input type="text" id="new-imagen" placeholder="URL Imagen (ej: images/foto.jpg)"></div>
             <div class="form-group"><input type="number" id="new-stock" placeholder="Stock Inicial"></div>
-            <div class="form-group"><input type="text" id="new-barcode" placeholder="Código Barra"></div>
-            <button id="create-product-button" class="azul">Crear</button>
+            <div class="form-group"><input type="text" id="new-barcode" placeholder="Código de Barra (EAN)"></div>
+            <button id="create-product-button" class="azul">Guardar Producto</button>
         </div>
 
         <div id="page-eliminar" class="admin-page oculto">
             <h2>Eliminar Producto</h2>
             <div class="form-group"><select id="delete-product-select"><option>Cargando...</option></select></div>
-            <button id="delete-product-button" style="background-color: #dc3545;">Eliminar</button>
+            <button id="delete-product-button" style="background-color: #dc3545;">Eliminar Definitivamente</button>
         </div>
         
         <div id="page-reportes" class="admin-page oculto">
-            <h2>Reportes</h2>
-            <div class="report-stats">
-                <div class="stat-box"><h4>Ingresos</h4><p id="stat-ingresos">$0</p></div>
-                <div class="stat-box"><h4>Ventas</h4><p id="stat-ventas">0</p></div>
-            </div>
+            <h2>Estado de Resultados</h2>
+            <table class="tabla-financiera">
+                <tr><td class="concepto">Ingresos por Ventas</td><td class="monto" id="fin-ingresos" style="color: green;">$ 0</td></tr>
+                <tr><td class="concepto">(-) Costo de Ventas</td><td class="monto" id="fin-costos" style="color: red;">$ 0</td></tr>
+                <tr class="fila-resultado"><td class="concepto">Utilidad Bruta</td><td class="monto" id="fin-utilidad">$ 0</td></tr>
+            </table>
+            <p><strong>Margen de Ganancia:</strong> <span id="fin-margen">0%</span></p>
+            <hr>
+            <h3>Top 5 Productos</h3>
             <ul id="stat-top-productos"></ul>
-            <button id="refresh-report-btn" class="azul">Actualizar</button>
+            <button id="refresh-report-btn" class="azul" style="margin-top:20px;">Actualizar Reporte</button>
         </div>
         <p id="admin-message" style="margin-top:15px; font-weight:bold;"></p>
     </div>

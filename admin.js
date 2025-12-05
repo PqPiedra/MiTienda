@@ -1,5 +1,6 @@
 const ADMIN_PASSWORD = "admin123"; 
-const API_URL = "https://mi-tienda-final.onrender.com"; // Producción
+// NOTA: Si al subir a Render no te conecta, cambia esta línea por la URL de tu Render: "https://mi-tienda-final.onrender.com"
+const API_URL = "https://mi-tienda-final.onrender.com"; 
 
 document.addEventListener('DOMContentLoaded', () => {
     let currentPassword = "";
@@ -11,9 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('login-container').classList.add('oculto');
             document.getElementById('dashboard-container').classList.remove('oculto');
             loadAllProducts();
-        } else {
-            document.getElementById('login-error').style.display = 'block';
-        }
+        } else document.getElementById('login-error').style.display = 'block';
     });
 
     const tabs = ['stock', 'crear', 'eliminar', 'reportes'];
@@ -51,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('add-stock-button').addEventListener('click', async () => {
-        const id = document.getElementById('product-select').value;
-        const qty = document.getElementById('quantity-input').value;
-        await sendPost('/api/admin/add-stock', { productId: id, quantityToAdd: qty });
+        await sendPost('/api/admin/add-stock', { 
+            productId: document.getElementById('product-select').value, 
+            quantityToAdd: document.getElementById('quantity-input').value 
+        });
         loadAllProducts();
-        document.getElementById('quantity-input').value = "";
     });
 
     document.getElementById('create-product-button').addEventListener('click', async () => {
@@ -63,12 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
             nombre: document.getElementById('new-nombre').value,
             descripcion: document.getElementById('new-desc').value,
             precio: document.getElementById('new-precio').value,
+            costo: document.getElementById('new-costo').value,
             categoria: document.getElementById('new-categoria').value,
             imagen: document.getElementById('new-imagen').value,
             stock: document.getElementById('new-stock').value,
             codigoDeBarra: document.getElementById('new-barcode').value
         };
         await sendPost('/api/admin/crear-producto', { nuevoProducto: nuevo });
+        document.querySelectorAll('#page-crear input').forEach(i => i.value = '');
     });
 
     document.getElementById('delete-product-button').addEventListener('click', async () => {
@@ -81,11 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadReport() {
         const res = await sendPost('/api/admin/reporte-ventas', {});
         if(res) {
-            document.getElementById('stat-ingresos').innerText = `$ ${new Intl.NumberFormat('es-CL').format(res.stats.totalIngresos)}`;
-            document.getElementById('stat-ventas').innerText = res.stats.totalVentas;
+            const fmt = (n) => new Intl.NumberFormat('es-CL', {style:'currency', currency:'CLP'}).format(n);
+            document.getElementById('fin-ingresos').innerText = fmt(res.stats.ingresos);
+            document.getElementById('fin-costos').innerText = fmt(res.stats.costos);
+            document.getElementById('fin-utilidad').innerText = fmt(res.stats.utilidad);
+            document.getElementById('fin-margen').innerText = res.stats.margen + "%";
+
             const list = document.getElementById('stat-top-productos');
             list.innerHTML = "";
-            res.topProductos.forEach(p => list.innerHTML += `<li><span>${p._id}</span><strong>${p.totalVendido}</strong></li>`);
+            res.topProductos.forEach(p => list.innerHTML += `<li><span>${p._id}</span><strong>${p.totalVendido} un.</strong></li>`);
         }
     }
     document.getElementById('refresh-report-btn').addEventListener('click', loadReport);
