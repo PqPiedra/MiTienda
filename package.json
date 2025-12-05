@@ -1,19 +1,18 @@
 {
-  "name": "proyecto-2",
+  "name": "mi-tienda-pos",
   "version": "1.0.0",
-  "description": "",
-  "main": "node src/server.js",
+  "description": "Sistema POS para Tesis",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node src/server.js",
+    "build": "echo 'Build complete'"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "mongoose": "^8.19.3"
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
